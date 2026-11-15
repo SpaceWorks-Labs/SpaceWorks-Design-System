@@ -1,7 +1,7 @@
 # Space Works product rules
 
 The uniform rules every Space Works product and repository follows. They apply in the same way to every web app,
-every native app, every landing page and docs site and to this design system. They are stated once, here; no
+every native app, every landing page, every product's in-app docs and to this design system. They are stated once, here; no
 repository, product or role gets a private version of a rule, and no page in this design system describes a
 repository-by-repository setup or where a particular product stands today.
 
@@ -13,8 +13,11 @@ Related pages: [`theming.md`](theming.md), [`motion.md`](motion.md), [`lessons-l
 
 **Hosting of this design system.** The site is served at `system.<domain>`, with its own landing page. The base
 path is configuration (`DESIGN_SITE_BASE`, with `DESIGN_SITE_URL` for the origin), never hard-coded; until
-`system.<domain>` exists the GitHub Pages deploy keeps working under its repository path. Product documentation
-keeps its own design, built from this system's tokens, and is served at `docs.<domain>`.
+`system.<domain>` exists the GitHub Pages deploy keeps working under its repository path.
+
+**Hosting of docs (one rule for every product).** The design system is served at `system.<domain>`. Every
+product serves its own docs on its own domain at the `/docs` route (for example `<domain>/docs`), built from this
+system's tokens; there is no separate docs site, no `docs.<domain>` and no separate docs repository.
 
 ---
 
@@ -395,7 +398,7 @@ across web, iOS and Android.
 - Prove it offline: tests that show no loader, request or cookie before consent, and that withdrawal stops it.
 
 **8.3 Mixpanel: one uniform opt-in rule (web surfaces).** The same rule applies to the product web app, the landing
-page, the product docs and this design-system site. Mixpanel is never a default.
+page, the docs a product serves at `<domain>/docs` and this design-system site. Mixpanel is never a default.
 - **Off unless an operator sets a project token.** With no token there is no script, no request and no storage key.
 - **Loads only after consent.** The script loads only after the cookie/consent banner allows analytics; withdrawing
   consent stops it at once.
@@ -426,7 +429,7 @@ second permission system for phones would drift.
   - **Swagger UI** (try-it-out, at `/api/docs/` or `/docs/`) and **ReDoc** (readable reference, at `/redoc/`), both
     served from that document, both behind the same auth rules as the API (public in self-host by default, can be
     turned off in production by a setting);
-  - the reference on the product's docs site too (rendered with Redocly/ReDoc), next to guides for auth, errors,
+  - the reference in the product's own docs at `<domain>/docs` too (rendered with Redocly/ReDoc), next to guides for auth, errors,
     pagination, rate limits, webhooks and versioning.
 - **Spec quality.** Every operation has an `operationId` (stable, no `_2` suffixes), a summary and description, tags
   that match the areas, request/response schemas with examples, every error response (400/401/403/404/409/422/429)
@@ -435,7 +438,7 @@ second permission system for phones would drift.
   changelog.
 - **Lint the spec with Redocly CLI** (`redocly lint` with the org ruleset: operationId required and unique, tags
   declared, no unused components, 4xx responses documented, examples valid) and bundle it (`redocly bundle`) for the
-  docs site. In CI this runs in the contract stage (section 14) and fails on errors.
+  product's `/docs`. In CI this runs in the contract stage (section 14) and fails on errors.
 - Generated clients (TypeScript, Kotlin, Swift) come from the same snapshot; nobody hand-writes request types.
 - Errors have a stable, untranslated code and a translated message, in one consistent body.
 - **Throttle** abuse-prone routes. Answer **429 with `Retry-After`**; clients back off.
@@ -582,9 +585,10 @@ separately per project.
 **Why.** A visitor meets a project on its landing page or in its docs before they ever sign in. If each project
 invents its own look, the family stops reading as one and the rules drift. SpaceWorks already has the pattern
 (a hub landing page with a scroll story and its GitHub link, and a docs viewer at `/docs` with a page per
-area). Product documentation keeps its own design, built from this system's tokens, and is served at `docs.<domain>`;
-the design system itself is served at `system.<domain>` (decision 552, 14 November 2026). Feature docs still live
-in each repository and change in the same pull request as the code.
+area). The design system is served at `system.<domain>`. Every product serves its own docs on its own domain at
+the `/docs` route (for example `<domain>/docs`), built from this system's tokens; there is no separate docs site,
+no `docs.<domain>` and no separate docs repository (decision 552, 14 November 2026; docs hosting clarified
+15 November 2026). Feature docs live in each repository and change in the same pull request as the code.
 
 **How to apply.**
 - **Landing page.** Served by the project itself (on by default, switchable off like SpaceWorks'
@@ -593,9 +597,10 @@ in each repository and change in the same pull request as the code.
   repository**, latest release and the install one-liner, docs, licence (AGPL) and changelog — in the header
   and the footer. Built only from this system's tokens (`tokens/`), components and [motion templates](motion.md)
   (route transition, page enter, scroll reveal, theme reveal), in both themes, with reduced motion honoured.
-- **Feature docs.** A docs viewer inside the project (SpaceWorks: `/docs`) with one page per feature area: what
+- **Feature docs.** A docs viewer inside the product, at `<domain>/docs`, with one page per feature area: what
   it does, who can use it (roles), how to switch it on or off, screenshots in both themes and the API reference
-  link (rule 9). Sources live in the repository's `docs/` folder, versioned with the code; no separate docs site.
+  link (rule 9). Sources live in the repository's `docs/` folder, versioned with the code and served by the
+  product itself: no separate docs site, no `docs.<domain>`, no separate docs repository.
 - **Native apps** (Android, iOS) have no landing page or docs of their own: they link to the SpaceWorks hub's
   landing page and docs.
 - **Before shipping** a landing page or docs change: check it against the

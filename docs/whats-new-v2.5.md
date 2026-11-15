@@ -4,12 +4,15 @@ Design System **v2.5.0**, released 14 November 2026 (owner decisions 551 to 557)
 design system lives and how it states its rules: one uniform rule set, hosted on its own address, with a landing page
 that looks like the SpaceWorks landing page and says only design-system things.
 
+**Patch: [v2.5.1](whats-new-v2.5.1.md)** (15 November 2026) fixes the theme toggle's colours, states one docs-hosting
+rule (docs live in each product at `<domain>/docs`, not at `docs.<domain>`) and adds screenshots in both themes.
+
 ## Changed
 
 - **Hosted at `system.<domain>`.** The design-system site is served at its own address with its own landing page. The
   base path is configuration: set `DESIGN_SITE_BASE` (use `/` at the root) and `DESIGN_SITE_URL` (the origin). The
-  GitHub Pages deploy keeps working with the defaults until the new address exists. Product docs keep their own
-  design, built from this system's tokens, at `docs.<domain>`.
+  GitHub Pages deploy keeps working with the defaults until the new address exists. Product docs are served by
+  each product on its own domain at `<domain>/docs` (corrected in v2.5.1; this line first said `docs.<domain>`).
 - **A new landing page.** The look follows the SpaceWorks landing page: the hero, the section rhythm, the quiet symbol
   pattern, the Deep Ink island, reveal on scroll, and the box-open logo on hover. The content is the design system:
   what it is, foundations, components and patterns, brand and logo, the uniform rules, using it in a product,

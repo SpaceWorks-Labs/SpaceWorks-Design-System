@@ -65,6 +65,12 @@ const downloads = [
   { title: 'Tokens', body: 'CSS, JSON, Tailwind preset and native exports with checksums.', href: u('/downloads/') },
 ];
 
+// Captures of this site from screenshots/site/ (scripts/capture-site-screenshots.mjs), always as a light/dark pair.
+const shot = (name: string, size: string, theme: string) => kitUrl(`screenshots/site/${name}-${size}-${theme}.webp`);
+const pair = (name: string, label: string) => (['light', 'dark'] as const).map((theme) => ({ name, label, theme }));
+const shotsDesktop = pair('components', 'Components');
+const shotsPhone = [...pair('colour', 'Colour'), ...pair('tokens', 'Token reference')];
+
 const swatches = ['--brand-deep-ink', '--brand-maker-teal', '--brand-workshop-orange', '--brand-citron', '--brand-sky-blue', '--brand-warm-yellow', '--brand-warm-cream'];
 ---
 
@@ -164,6 +170,37 @@ const swatches = ['--brand-deep-ink', '--brand-maker-teal', '--brand-workshop-or
                   <span class="sw-land-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={p.icon} /></svg></span>
                   <h3>{p.title}</h3>
                   <p>{p.body}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      </div>
+
+      <div data-reveal>
+        <section id="themes" aria-labelledby="themes-title" class="sw-land-section">
+          <div class="sw-land-wrap">
+            <div class="sw-land-split">
+              <h2 id="themes-title" class="sw-land-h2">In both themes.</h2>
+              <p class="sw-land-lede">This site is built from the same tokens it documents. Here it is in Warm Cream light and solid black dark, side by side, at desktop and phone widths.</p>
+            </div>
+            <ul class="sw-land-shots">
+              {shotsDesktop.map((s) => (
+                <li class="sw-land-shot">
+                  <a href={shot(s.name, 'desktop', s.theme)} class="sw-land-shot-frame">
+                    <img src={shot(s.name, 'desktop', s.theme)} alt={`${s.label} page of the design-system site, desktop, ${s.theme} theme`} width="1440" height="1000" loading="lazy" decoding="async" />
+                  </a>
+                  <p class="sw-land-shot-caption"><span class="sw-land-shot-theme">{s.theme === 'light' ? 'Light' : 'Dark'}</span>{s.label}, desktop</p>
+                </li>
+              ))}
+            </ul>
+            <ul class="sw-land-shots sw-land-shots-phone">
+              {shotsPhone.map((s) => (
+                <li class="sw-land-shot">
+                  <a href={shot(s.name, 'phone', s.theme)} class="sw-land-shot-frame">
+                    <img src={shot(s.name, 'phone', s.theme)} alt={`${s.label} page of the design-system site, phone, ${s.theme} theme`} width="390" height="1000" loading="lazy" decoding="async" />
+                  </a>
+                  <p class="sw-land-shot-caption"><span class="sw-land-shot-theme">{s.theme === 'light' ? 'Light' : 'Dark'}</span>{s.label}, phone</p>
                 </li>
               ))}
             </ul>

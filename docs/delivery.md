@@ -173,9 +173,10 @@ archives or uploads a `.ipa`, and **no GitHub Release is created** today. Both m
 |---|---|---|
 | **Design System** (`SpaceWorks-Design-System`) | `deploy-site.yml` | On PRs: builds only, so a broken page or link fails before `main`. First runs `scripts/check-previews.mjs` (animated previews match the token and motion sources), then in `site/` runs `npm ci` and `npm run build`, which syncs the kit, runs `check-tokens.mjs` (site colours equal the tokens) and the Astro link validation. On `main`: uploads `site/dist` and deploys to GitHub Pages (environment `github-pages`, concurrency group `pages`). Site URL from the `DESIGN_SITE_URL` variable. |
 
-Every static site (a landing page, a docs site, this design system) builds on every pull request and publishes only from
+Every static site (a landing page, this design system) builds on every pull request and publishes only from
 `main`. Its public URL and base path are configuration, never hard-coded; the design system is served at
-`system.<domain>` and product docs at `docs.<domain>`.
+`system.<domain>`. Product docs are not a static site of their own: every product serves its docs on its own
+domain at the `/docs` route (`<domain>/docs`); there is no `docs.<domain>` and no separate docs repository.
 
 Design System version: the kit is **Design System v2.0** (named in `README.md` and in the motion-kit note);
 there is **no `VERSION` file, no git tag and no GitHub Release yet**. The product release it tracks is the
