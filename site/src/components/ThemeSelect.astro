@@ -64,9 +64,12 @@
 </script>
 
 <style>
-	/* Tokens only. The boundary uses the control-outline token (the old hairline was about 1.4:1 against the
-	   canvas in both themes), the pressed state is shown with the accent pair, and hover and focus have
-	   their own tokens, so the toggle reads the same in light and dark. */
+	/* Tokens only, one treatment in both themes: panel fill, control-outline boundary (3.0:1 or more against the
+	   page in light, 4.7:1 or more in dark) and an ink icon. Light and dark are equals, so the dark theme is not
+	   drawn as an "on" state: aria-pressed still tells assistive technology which theme is active, and the
+	   sun/moon glyph shows it visually. v2.5.0 painted aria-pressed with the accent pair, which made the toggle a
+	   teal chip in dark only, gave it a teal icon unlike every other header control, and hid hover in dark.
+	   Hover darkens the boundary to ink so it is visible in both themes. */
 	.sw-theme-toggle {
 		display: inline-flex;
 		align-items: center;
@@ -78,15 +81,16 @@
 		background: rgb(var(--color-panel));
 		color: rgb(var(--color-ink));
 		cursor: pointer;
-		transition: background-color var(--sw-dur-fast, 120ms), color var(--sw-dur-fast, 120ms);
+		transition: background-color var(--sw-dur-fast, 120ms), border-color var(--sw-dur-fast, 120ms);
 	}
 	.sw-theme-toggle:hover {
 		background: rgb(var(--color-hover));
+		border-color: rgb(var(--color-ink));
 	}
-	.sw-theme-toggle[aria-pressed='true'] {
-		background: rgb(var(--color-accent-soft));
-		border-color: rgb(var(--color-accent-ink));
-		color: rgb(var(--color-accent-ink));
+	/* During the circle reveal the new theme is a live snapshot: a colour transition here would draw the toggle
+	   in the old theme's colours at the very point the circle grows from. Switch its colours with the page. */
+	:global(html.sw-theme-reveal) .sw-theme-toggle {
+		transition: none;
 	}
 	.sw-theme-toggle:focus-visible {
 		outline: 2px solid rgb(var(--color-focus));
