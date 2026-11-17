@@ -702,6 +702,41 @@ pages belong to the web (§12.1), and the stores carry the app's description.
 Links to the product's landing page and docs live in settings or the about screen, never as a first screen. Native
 apps still follow every other rule here, including consent for analytics (§8).
 
+### 12.6 README gallery: features, dashboards, modules and connections (every repository)
+
+*Added 14 November 2026 (SW-497); renumbered 12.4 to 12.6 on 17 November 2026 because 12.4 and 12.5 are now the release and mobile rules. Additive to 12.3: nothing above is changed.*
+
+**Rule.** Every product README shows what the product does, with pictures:
+
+1. **Features and dashboards.** Under "A look around" (12.3, item 4) and "What you can do" (item 7), show **the best
+   single screen per area**: for a product with a staff console, one staff dashboard per console area (inventory,
+   requests, machines, events, bookings, members, money, shop, reports, settings and so on), plus the public,
+   member and TV screens where the product has them. Choose by looking at the image: populated rows, no empty
+   state, no error, no real personal data (the sign-in brand panel's real person and photo are the one decided
+   exception).
+2. **Every screenshot is a light and dark pair.** Each image is a `<picture>` with a
+   `<source media="(prefers-color-scheme: dark)" srcset="...-dark.webp">` and a light `<img src="...-light.webp">`,
+   with descriptive alt text and a one-line caption. A single-theme image is a defect to fix, not a style.
+3. **Modules.** A product with modules lists **every module** with what it adds, its gates (module key,
+   capabilities), what it does with money, and what happens when it is off, each claim verified against the code,
+   and links to the modules document.
+4. **Connections.** A product with modules draws a **map of how they connect** (a Mermaid `flowchart` that GitHub
+   renders) from real dependencies and real cross-module links only, with a short legend, and repeats the same map
+   in its features document.
+5. **Where files live.** Images are relative, under `docs/readme/screens/<area>-light.webp` and `-dark.webp`, in a
+   repeatable capture script, never hand-edited. The README never links an image that does not exist yet, and never
+   shows a stale-palette image: an area whose capture is out of date is omitted and listed for recapture instead.
+6. **The design system's own README follows the same rule**, with its best screen **per component or pattern
+   area** (sign-in and auth, tables, lists, detail pages, flows, forms, the dashboard, motion and the logo), as
+   light and dark pairs wherever both exist.
+
+**Why.** A README that only describes is a promise; a picture of the real screen is proof. Pairs show that the
+product holds up in both themes, and a verified module list with a connection map stops the README claiming a feature
+that is not implemented.
+
+**How to apply.** Capture on seeded data at 1280 by 800 (1920 by 1080 for a TV screen), look at every image before
+choosing it, refresh the set every release, and check the README's image links resolve.
+
 ---
 
 ## 13. Decisions and handover (project memory)

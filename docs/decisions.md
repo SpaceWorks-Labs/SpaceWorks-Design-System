@@ -979,3 +979,19 @@ Index addition: [SW-412 — Orange outer flaps open in order; black-and-white re
   stale versions or dead links; native apps and the design-system repository adapt it.
 - **Why:** The owner asked for the product README structure to be a rule, like the landing page and entry points.
 - **Status:** current. Rule text: [product rules §12.3](product-rules.md#123-product-readme-structure-every-repository).
+
+### SW-497 — Every README shows the best screen per area, in light and dark
+- **Date:** 14 November (carried onto main 17 November)
+- **Decision:** Every product README shows its features and staff dashboards as a gallery with the best single screen
+  per area, each a light and dark `<picture>` pair (`prefers-color-scheme`), plus a module inventory (gates and money)
+  and a module connection map when the product has modules. The design-system README follows the same rule with its
+  best screen per component or pattern area.
+- **Why:** The owner asked for every area's dashboard, in both themes, to be visible from the README, and for that to
+  be a rule across repositories.
+- **Status:** current. Rule text: [product rules §12.6](product-rules.md#126-readme-gallery-features-dashboards-modules-and-connections-every-repository) (first drafted as §12.4, renumbered; see SW-630).
+
+### SW-630 — Design-system sync after v2.5.1 (wave 630)
+- **Date:** 17 November
+- **Decision:** (1) The unmerged `design-0.12.0` branch is superseded by main (v2.5.1); its README, product-rules and decisions are archived, and only its two additions (the README gallery rule and the product-screens gallery) are carried forward. (2) The gallery rule is renumbered 12.4 to 12.6 because main already uses 12.4 (releases) and 12.5 (mobile apps). (3) The README gallery omits Forms (the 0.12.0 recapture kept the old-palette file) and the display (TV) screen, and lists them in `screenshots/ux/RECAPTURE.md` instead of showing stale or invented images. (4) The 2026-11-13 recapture of 36 `screenshots/ux/` files ships as is. (5) `VERSION` stays 2.5.1: this is docs and screenshots only, so no new tag or release.
+- **Why:** Owner rule 630 (take the recommended option); never show a stale-palette image, never fabricate one, never renumber a published rule silently.
+- **Status:** current.

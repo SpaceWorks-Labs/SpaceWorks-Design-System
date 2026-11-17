@@ -48,6 +48,33 @@ masters, colours, type, voice, every design token and the UI specs, published fr
 | Current rules | <a href="screenshots/site/current-rules-desktop-light.webp"><img alt="Current rules, desktop, light" src="screenshots/site/current-rules-desktop-light.webp" width="240"></a> | <a href="screenshots/site/current-rules-desktop-dark.webp"><img alt="Current rules, desktop, dark" src="screenshots/site/current-rules-desktop-dark.webp" width="240"></a> | <a href="screenshots/site/current-rules-phone-light.webp"><img alt="Current rules, phone, light" src="screenshots/site/current-rules-phone-light.webp" width="70"></a> | <a href="screenshots/site/current-rules-phone-dark.webp"><img alt="Current rules, phone, dark" src="screenshots/site/current-rules-phone-dark.webp" width="70"></a> |
 | Decisions | <a href="screenshots/site/decisions-desktop-light.webp"><img alt="Decisions, desktop, light" src="screenshots/site/decisions-desktop-light.webp" width="240"></a> | <a href="screenshots/site/decisions-desktop-dark.webp"><img alt="Decisions, desktop, dark" src="screenshots/site/decisions-desktop-dark.webp" width="240"></a> | <a href="screenshots/site/decisions-phone-light.webp"><img alt="Decisions, phone, light" src="screenshots/site/decisions-phone-light.webp" width="70"></a> | <a href="screenshots/site/decisions-phone-dark.webp"><img alt="Decisions, phone, dark" src="screenshots/site/decisions-phone-dark.webp" width="70"></a> |
 
+## Product screens by area
+
+The best screen per component or pattern area (product rules [section 12.6](docs/product-rules.md#126-readme-gallery-features-dashboards-modules-and-connections-every-repository)), taken from a real Space Works product (seeded showcase data, 2026-11-13 capture) and from this site. Every image is a light and dark pair that follows your colour scheme. Forms and the display (TV) screen are not shown yet: their captures are still to be retaken in the current palette (see [`screenshots/ux/RECAPTURE.md`](screenshots/ux/RECAPTURE.md)).
+
+<table>
+<tr>
+<td width="50%" valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="screenshots/ux/auth-sign-in-desktop-dark.webp"><img src="screenshots/ux/auth-sign-in-desktop-light.webp" alt="The staff console sign-in: passkey, email and password on the left, a brand panel on the right." width="480"></picture><br><b>Sign-in and auth</b></td>
+<td width="50%" valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="screenshots/ux/table-team-desktop-dark.webp"><img src="screenshots/ux/table-team-desktop-light.webp" alt="The Staff and roles table with a role filter and one card per person." width="480"></picture><br><b>Tables</b></td>
+</tr>
+<tr>
+<td width="50%" valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="screenshots/ux/list-guests-desktop-dark.webp"><img src="screenshots/ux/list-guests-desktop-light.webp" alt="The event Registrations list with search, status and ticket filters and badge printing." width="480"></picture><br><b>Lists</b></td>
+<td width="50%" valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="screenshots/ux/detail-overview-desktop-dark.webp"><img src="screenshots/ux/detail-overview-desktop-light.webp" alt="An event's overview with essentials, a readiness checklist and an at-a-glance panel." width="480"></picture><br><b>Detail pages</b></td>
+</tr>
+<tr>
+<td width="50%" valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="screenshots/ux/flow-check-in-desktop-dark.webp"><img src="screenshots/ux/flow-check-in-desktop-light.webp" alt="The event check-in step with a live count, online scan and an offline roster." width="480"></picture><br><b>Flows</b></td>
+<td width="50%" valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="screenshots/ux/workspace-dashboard-desktop-dark.webp"><img src="screenshots/ux/workspace-dashboard-desktop-light.webp" alt="The dashboard: an overdue banner and a Waiting on me grid of counts." width="480"></picture><br><b>Dashboard</b></td>
+</tr>
+<tr>
+<td width="50%" valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="screenshots/ux/public-event-desktop-dark.webp"><img src="screenshots/ux/public-event-desktop-light.webp" alt="A public event page with date, venue, price and a Join this event panel." width="480"></picture><br><b>Public pages</b></td>
+<td width="50%" valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="screenshots/site/motion-desktop-dark.webp"><img src="screenshots/site/motion-desktop-light.webp" alt="The motion guidance page of the design site, with its catalogue and tokens." width="480"></picture><br><b>Motion</b></td>
+</tr>
+<tr>
+<td width="50%" valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="screenshots/site/logo-desktop-dark.webp"><img src="screenshots/site/logo-desktop-light.webp" alt="The logo page: primary, horizontal, symbol and app icon masters, light and reversed." width="480"></picture><br><b>Logo</b></td>
+<td width="50%" valign="top"><picture><source media="(prefers-color-scheme: dark)" srcset="screenshots/site/overlays-desktop-dark.webp"><img src="screenshots/site/overlays-desktop-light.webp" alt="The overlays page of the design site: dialogs, sheets, popovers and toasts." width="480"></picture><br><b>Overlays</b></td>
+</tr>
+</table>
+
 ## Contents
 
 > **Current rule (v2.0.1, 2026-11-13):** The current brand book is v2 (50 pages); the retained v1 book is historical (17 pages). The three type families are Gilroy, Outfit and Unbounded. Start with [Current rules](docs/current-rules.md) and use [Voice and content](docs/voice-and-content.md) for product writing. (1A-N02) — supersedes the line above; see [docs/current-rules.md#cr-scope-01](docs/current-rules.md#cr-scope-01).
