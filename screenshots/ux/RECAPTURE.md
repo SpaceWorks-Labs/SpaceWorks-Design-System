@@ -38,3 +38,61 @@ Notes for the live pass:
 - The old shots show the Events product chrome ("space works / Events"); the new shots show whatever 0.12.0
   chrome the route renders. If a screen no longer exists in 0.12.0, keep the old file and list it in the pass report.
 - Re-encode as WebP (quality ~80) at the sizes above; keep each file small.
+
+## Recapture pass 2026-11-13 (SpaceWorks 0.12.0, dev stack)
+
+Captured with Playwright (Chromium) on the dev stack, seeded showcase space `tinkerspace` ("Tinkerspace"), fictional
+accounts only. Desktop 1280x800 light and dark, phone 390x844 light, WebP quality 80, same file names. The seeded
+data in this repo is the showcase space, not "Space Works Kochi / Kochi Maker Night"; screens show that data.
+
+Recaptured (36 of the 48 files on disk):
+
+| File stem | Route used | Signed in as |
+|---|---|---|
+| `account-profile` (desktop light, dark) | `/m/tinkerspace/member/account` | member (Asha Menon) |
+| `auth-reset-password` (desktop light, dark) | `/reset-password` | none |
+| `auth-sign-in` (desktop light, dark, phone light) | `/sign-in` | none |
+| `detail-overview` | `/m/tinkerspace/admin/events?event=5` (Overview tab) | Space Manager |
+| `flow-check-in` | `/m/tinkerspace/admin/events?event=5&eventTab=checkin` | Space Manager |
+| `list-guests` | `/m/tinkerspace/admin/events?event=5&eventTab=registrations` (the Guests tab is now "Registrations") | Space Manager |
+| `list-member-ids` | `/m/tinkerspace/admin/member-cards` (Cards tab) | Space Manager |
+| `public-event` | `/m/tinkerspace/events/<publicToken>` | none |
+| `public-organisation` | `/o/tinkerspace-collective` (public profile switched on for the org first) | none |
+| `public-verify-card` | `/verify/c/<token>` (public check switched on in member card settings, token minted for card TNK-0001) | none |
+| `public-verify-not-found` | `/verify/c/<43-character unknown token>` | none |
+| `table-team` (desktop only) | `/m/tinkerspace/admin/users` (Staff & roles) | Space Manager |
+| `workspace-dashboard` | `/m/tinkerspace/admin/dashboard` | Space Manager |
+
+Not recaptured (old files kept, in the old palette):
+
+- `form-new-organisation`, `settings-organisation`, `workspace-organisations`: 0.12.0 has no `/organizations/new`,
+  `/organizations/<slug>/settings` or `/organizations/<slug>` route (the router only has `/organizations`, the public
+  directory, and `/o/<slug>`, the public page). Organisation creation lives in the member account page and is off by
+  default (`ORGANIZATION_SELF_CREATION_ENABLED`), and the owner-side workspace is not a standalone screen.
+- `public-ticket`: needs a registration confirmation for a signed-in member; the showcase registrations are guest rows
+  with no account, so no ticket screen could be opened from seed data.
+- `workspace-empty-state`: needs a brand-new makerspace with no data; no empty space was seeded in this pass.
+
+Notes:
+
+- `auth-sign-in` shows the brand panel of the sign-in page, which carries a staff ID-card illustration with a real
+  person's name and photo (a design asset in the app, not seed data). Check it before these files are published.
+- The phone shots of `list-guests` show the Status and Ticket selects reaching the right edge of the screen (no right
+  gutter); this is how 0.12.0 renders today, not a capture error.
+
+
+- 2026-11-13: auth-sign-in-desktop-light/-dark and auth-sign-in-phone-light retaken from the real signed-out sign-in page (the staff console route /m/tinkerspace/admin, with its Sign in / Create account form and brand panel; /sign-in is not a route). table-team-desktop-light/-dark retaken on /m/tinkerspace/admin/users after completing the "Confirm your identity" step-up, so the Staff & roles table, role selector and Invitations tab are visible. Seed data only.
+
+## README pairs still missing (2026-11-17, README "Product screens by area")
+
+Shown today (light and dark pair each, both in the current palette): sign-in and auth, tables, lists, detail pages,
+flows, dashboard, public pages (all `screenshots/ux/`), and motion, logo, overlays (`screenshots/site/`).
+
+Missing, for the dev-stack capture pass (desktop 1280x800, light and dark, seeded showcase space `tinkerspace`):
+
+- **Forms**: `form-new-organisation-desktop-light/-dark.webp` exist only in the old palette (0.12.0 has no
+  `/organizations/new` route). Capture another populated form in 0.12.0 (for example member card settings or the new
+  event form), name it `form-<name>-desktop-light/-dark.webp`, then add the Forms cell back to the README gallery.
+- **Display (TV) screen**: not captured at all. Needs a kiosk/display route at 1920x1080 in both themes.
+- Older gaps from the 2026-11-13 pass, still open: `public-ticket`, `workspace-empty-state`, `settings-organisation`,
+  `workspace-organisations` (old palette kept on disk; none is used in the README).
