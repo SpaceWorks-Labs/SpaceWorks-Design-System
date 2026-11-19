@@ -88,8 +88,9 @@ How to read it:
 | DS-7 | Brand kit v1 and Figma exports are the source of truth | current |
 | DS-8 | Dark token retune, then "teal-lit" dark | superseded by SW-225 then SW-316 |
 | DS-9 | Links and Pages move to the SpaceWorks-Labs organisation | current |
+| DS-10 | One sign-in list, one outside-services contract and the full analytics list for every product | current |
 
-Count: 67 entries, 58 from the ledger (SW-) and 9 design-only (DS-). Ledger decisions 219, 220, 222 and the
+Count: 68 entries, 58 from the ledger (SW-) and 10 design-only (DS-). Ledger decisions 219, 220, 222 and the
 other fonts and dark-mode steps are listed separately because each one changed the rules at a different date.
 
 ---
@@ -739,6 +740,23 @@ other fonts and dark-mode steps are listed separately because each one changed t
 - **Status:** current.
 - **Implemented in:** `docs/ux-spec.md`; `references/yuyu/`.
 
+### DS-10 — One sign-in list, one outside-services contract and the full analytics list for every product
+- **Date:** 19 November
+- **Decision:** Every product in the organisation supports the same sign-in methods (password, Google, Apple,
+  GitHub, any OIDC provider, SAML 2.0, passkeys, phone code by SMS), two-step sign-in with recovery codes and device
+  checks for the phone apps ([product rules §15](product-rules.md#15-sign-in-and-identity)); one contract and one
+  provider list for outside services: email, SMS, push, chat and AI
+  ([§16](product-rules.md#16-outside-services)); and the full optional analytics list, Mixpanel included, on every
+  product, web and native, with a shared list of event names (§8.2 to §8.4). Staff keep the authenticator §4
+  requires; a passkey does not replace it for them.
+- **Why:** The owner asked for these to be uniform across all products: "this should be for all products in org
+  also analytics all for org products", with passkeys and SAML "in" and "all" providers in each list. The
+  products differed in which sign-in methods they offered, and outside services were wired differently in each one. This is a minor release (v2.6.0) because it adds rules and
+  widens existing lists without removing or changing any token, component or existing rule.
+- **Status:** current.
+- **Implemented in:** `docs/product-rules.md` §8.2, §8.3, §8.4, §15, §16 and the new-feature checklist. Each
+  product adopts it in its own repository.
+
 ### DS-9 — Links and Pages move to the SpaceWorks-Labs organisation
 - **Date:** 26 October
 - **Decision:** Documentation links and the Pages site point at the SpaceWorks-Labs GitHub organisation.
@@ -888,7 +906,7 @@ people still remember it.
 - A decision that is also in the SpaceWorks decisions ledger keeps **its ledger number** with the prefix
   `SW-`, so the two files can be cross-referenced.
 - A decision that belongs only to this design repo and has no ledger number is numbered **DS-1, DS-2, ...**,
-  continuing from the highest DS number in this file (the next is **DS-10**). DS numbers are never reused.
+  continuing from the highest DS number in this file (the next is **DS-11**). DS numbers are never reused.
 - Also add a row to the [Index](#index) and update the count.
 
 **Rules.**

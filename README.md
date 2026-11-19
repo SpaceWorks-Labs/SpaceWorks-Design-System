@@ -11,15 +11,17 @@
 The Space Works design system: brand guidelines, logo masters, icons, fonts, design tokens and the UX
 pattern specs. Use it as a git submodule in any Space Works project so every surface draws from one source.
 
-**Version: Space Works Design System v2.5.1** (`VERSION` = `2.5.1`). What changed is in [`docs/whats-new-v2.5.1.md`](docs/whats-new-v2.5.1.md) and [`docs/whats-new-v2.5.md`](docs/whats-new-v2.5.md); earlier releases are in the changelog below.
+**Version: Space Works Design System v2.6.0** (`VERSION` = `2.6.0`). What changed is in [`docs/whats-new-v2.6.md`](docs/whats-new-v2.6.md); earlier releases are in [`docs/whats-new-v2.5.1.md`](docs/whats-new-v2.5.1.md), [`docs/whats-new-v2.5.md`](docs/whats-new-v2.5.md) and the changelog below.
 
-> **Current rule (v2.1.0, 2026-11-13):** `VERSION` now reads `2.1.0`; this is the additive publication target under decision 397, pending its tag and release. The v2.0.1 description above remains release history. (3-N01) — supersedes the version line above; see [current release guidance](docs/current-rules.md#cr-release-01) and [v2.1 notes](docs/whats-new-v2.1.md).
+> **Historical (v2.1.0, 2026-11-13; the current version is in the line at the top):** `VERSION` then read `2.1.0`; this is the additive publication target under decision 397, pending its tag and release. The v2.0.1 description above remains release history. (3-N01) — supersedes the version line above; see [current release guidance](docs/current-rules.md#cr-release-01) and [v2.1 notes](docs/whats-new-v2.1.md).
 
 > **Current rule (v2.1.1, 2026-11-13):** `VERSION` reads `2.1.1`. v2.1.0 was tagged and released on 13 November 2026 ([PR #17](https://github.com/SpaceWorks-Labs/SpaceWorks-Design-System/pull/17)); v2.1.1 is its QA patch (see the changelog below). The two version notes above remain release history.
 
 > **Current rule (v2.0.1, 2026-11-13):** Design System v2.0 is independent of app 0.12.0. v2.0.0 was released 2026-11-13; 2.0.1 is the fix checkpoint and ledger 397 sets phase 2 to v2.1.0. Observed at the 2026-11-13 batch baseline: local VERSION still reads 2.0.0 and tag v2.0.0 exists; publication and a target version are different facts. (1A-N01) — supersedes the line above; see [docs/current-rules.md#cr-release-01](docs/current-rules.md#cr-release-01).
 
 > **SpaceWorks 1.0.0 (2026-11-19):** this design system is the stable baseline for the product release **SpaceWorks 1.0.0**. Its own version is unchanged at **v2.5.1** (`VERSION` and the latest published kit tag); these UX docs are docs only, so no new kit tag (as SW-630). The product and design-system versions are separate; see [What's new for SpaceWorks 1.0](docs/whats-new-spaceworks-1.0.md) and the [draft release entry](docs/releases/spaceworks-1.0.0.md).
+
+> **v2.6.0 (2026-11-19):** new uniform rules for sign-in, outside services and analytics (DS-10). The note above was true when written; `VERSION` now reads **2.6.0**. The release adds rules only, so a product pinned at v2.5.1 keeps working unchanged.
 
 ```bash
 git submodule add https://github.com/SpaceWorks-Labs/SpaceWorks-Design-System.git design
@@ -129,6 +131,8 @@ Add the class `dark` to `<html>` for dark mode. The font URLs in `tokens.css` ar
 `tokens/` folder.
 
 ## Changelog
+
+- **v2.6.0 — one sign-in list, one outside-services contract, analytics for every product (2026-11-19).** New product rule 15: every product with accounts supports password, Google, Apple, GitHub, any OIDC provider, SAML 2.0, passkeys and phone code by SMS (all but password off until the operator switches them on), with two-step sign-in and recovery codes, device checks for the phone apps, sessions and "sign out everywhere". New rule 16: one contract for outside services and one provider list each for email (SMTP, Amazon SES, Resend, Postmark), SMS (Twilio, MSG91), push (FCM, APNs), chat (Slack, Discord, Mattermost, Telegram, signed webhook) and AI (Anthropic API). Rule 8.2 names every product, web and native, and adds Mixpanel; new rule 8.4 keeps one list of event names. Rules only: no token, component or asset changes. See [`docs/whats-new-v2.6.md`](docs/whats-new-v2.6.md).
 
 - **v2.5.1 — theme toggle colours, docs at `<domain>/docs`, screenshots in both themes (2026-11-15).** The theme toggle has one neutral treatment in both themes (panel fill, control-outline boundary, ink icon, ink boundary on hover) instead of a teal "pressed" chip in dark only, and no longer flashes the old theme's colours during the circle reveal. One docs-hosting rule for every product: the design system is at `system.<domain>`, and each product serves its own docs at `<domain>/docs` (no `docs.<domain>`, no separate docs site or repository). The landing page gains an "In both themes" section, the README gallery shows light and dark side by side, and all 48 site captures are refreshed. The brand PDFs, image metadata and font tables were checked: credit is to SpaceWorks Labs only. See [`docs/whats-new-v2.5.1.md`](docs/whats-new-v2.5.1.md).
 

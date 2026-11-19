@@ -92,7 +92,7 @@ restore and update-rollback contract.
   files are never production setups.
 - Migrations are a separate release step, never part of app start-up.
 - A small instance needs about 2 vCPU, 2 GB RAM and 30 GB SSD. The installer checks DNS, ports 80 and 443,
-  and an authenticated SMTP relay before starting.
+  and the authenticated SMTP relay, if one is configured (§16), before starting.
 - Offer server hardening in the installer: a firewall allowing only SSH, HTTP and HTTPS, automatic security
   updates, fail2ban.
 - Logs rotate (for example 10 MB per file, five files).
@@ -354,10 +354,13 @@ across web, iOS and Android.
 - Platform operators also get a deployment dashboard (health, jobs, storage, API monitor) and optional
   Prometheus metrics behind a bearer token.
 
-**8.2 Optional outside providers (all off by default).** Supported list, as verified in SpaceWorks:
+**8.2 Optional outside providers (all off by default).** One supported list for **every product**: each web app,
+landing page, the docs a product serves at `<domain>/docs`, and the Android and iOS apps (within the mobile SDK rule
+below). Each product supports every provider that applies to that surface:
 
 | Provider | Purpose (consent) | Notes |
 | --- | --- | --- |
+| Mixpanel | Page analytics | The operator's public project token (§8.3); it counts as the one page-analytics provider |
 | Plausible | Page analytics | Route templates only; self-hosted origin must be allow-listed |
 | Umami | Page analytics | Website id and an approved HTTPS origin |
 | Google Analytics 4 | Page analytics | Google signals and ad personalisation off |
@@ -382,8 +385,8 @@ across web, iOS and Android.
 - **Tag every event with `client`**: `web`, `ios` or `android`, using the same event names on every client so
   they can be compared. No name, email, phone, member id, device id, token, free text or screen contents.
 - **Required for every product, including the native apps.** Android and iOS must support the same optional
-  providers as the web, for those that have an official mobile SDK: **Firebase Analytics, Crashlytics and
-  Performance, PostHog, Sentry** and **Microsoft Clarity** (replay; Clarity publishes Android and iOS SDKs).
+  providers as the web, for those that have an official mobile SDK: **Mixpanel, Firebase Analytics, Crashlytics
+  and Performance, PostHog, Sentry** and **Microsoft Clarity** (replay; Clarity publishes Android and iOS SDKs).
   GA4 is reached through Firebase Analytics on mobile (same property). **Plausible and Umami have no official
   mobile SDK** (HTTP event APIs only): the apps do not call them, and mobile use is covered by the server's
   own counts. Metabase and Grafana read server data and need nothing in the app. Verify each SDK's current
@@ -393,12 +396,13 @@ across web, iOS and Android.
   behind the same consent screen and withdrawal as the web; no personal data; every event carries
   `client: ios` or `client: android` and uses the web's event names; no advertising id, no automatic screen
   or view capture that could expose private content, replay only on non-sensitive screens. A native app's
-  contributor rules (`AGENTS.md`) must name **exactly these SDKs** as allowed and keep forbidding any other
+  contributor rules (`AGENTS.md`) must name **exactly these SDKs, plus the §16 push SDK (FCM)**, as allowed and keep forbidding any other
   third-party SDK without owner approval.
 - Prove it offline: tests that show no loader, request or cookie before consent, and that withdrawal stops it.
 
-**8.3 Mixpanel: one uniform opt-in rule (web surfaces).** The same rule applies to the product web app, the landing
-page, the docs a product serves at `<domain>/docs` and this design-system site. Mixpanel is never a default.
+**8.3 Mixpanel: one uniform opt-in rule (every product).** The same rule applies to the product web app, the landing
+page, the docs a product serves at `<domain>/docs`, this design-system site and the native apps (which also follow
+the mobile rules in §8.2). Mixpanel is never a default.
 - **Off unless an operator sets a project token.** With no token there is no script, no request and no storage key.
 - **Loads only after consent.** The script loads only after the cookie/consent banner allows analytics; withdrawing
   consent stops it at once.
@@ -407,7 +411,22 @@ page, the docs a product serves at `<domain>/docs` and this design-system site. 
 - **Never personal data.** No names, emails, handles or user ids, only a random per-browser id; events follow §8.2
   (route templates, no free text, no query strings).
 - The token is a public project identifier set by the operator (for this site, at build time); it is never committed.
+- **In the native apps** the SDK is compiled in but inert, the token comes from the server's config, consent is the
+  app's consent screen, the id is a random per-install id, and Mixpanel's automatic events are off.
 - This rule is documented here once. Product docs and landing pages link to it and do not restate it.
+
+**8.4 Shared event names.** Every product and client sends the same event names, so numbers compare across products
+and across web, iOS and Android. The list:
+
+| Event | Properties | When |
+| --- | --- | --- |
+| `page_view` | `route` (the route template; on a native screen, the route template of the matching web route), `client` (`web`, `ios` or `android`) | A permitted route or screen is shown |
+
+- Providers' own automatic page and screen events (GA4 `page_view`, Firebase `screen_view`, PostHog `$pageview`) are
+  off, so nothing is counted twice; products send `page_view` themselves.
+- New names are `snake_case`, written as object then verb (for example `booking_created`), with properties that are
+  route templates, enums, counts or booleans only, never free text or ids.
+- A new event is added to this table, in the design system, **before** any product sends it.
 
 ---
 
@@ -808,6 +827,123 @@ contributor who knows one repository knows them all, and a gap is visible at a g
 
 ---
 
+## 15. Sign-in and identity
+
+**Rule.** Every product that has accounts offers the **same list of sign-in methods** on the web and in the native
+apps. Password sign-in is on by default; every other method is optional, off by default and switched on by the
+operator. Two-step sign-in, sessions and device checks work the same way everywhere.
+
+**Why.** One person moves between products and between web and phone. If each product signs people in differently,
+they meet a new screen and new rules every time, and every product needs its own security review. One list means one
+set of docs, one review and the same protection everywhere.
+
+**How to apply.**
+
+| Method | Default | Notes |
+| --- | --- | --- |
+| Password | On | At least 12 characters, breached-password check, strength meter (UX P23). May be switched off for staff once an identity provider is set up (UX S20) |
+| Google | Off | Set up by the operator for the whole install |
+| Apple | Off | Set up by the operator. On iOS, Google and GitHub are shown only while Apple is on too (App Store guideline 4.8 on third-party or social login); the settings screen warns when they are on without it |
+| GitHub | Off | Set up by the operator for the whole install |
+| Any OIDC provider | Off | Set up by the operator, or by a space for its own identity provider |
+| SAML 2.0 | Off | Set up by the operator, or by a space for its own identity provider |
+| Passkeys (WebAuthn) | Off | Phishing-resistant; user verification required |
+| Phone code by SMS | Off | A short-lived code sent through a §16 SMS provider (Twilio or MSG91), with limits per number and per country |
+
+- **Where it applies.** Every web app and native app with accounts supports **every method in the table**; the
+  operator decides which are on. Landing pages, the docs a product serves at `<domain>/docs` and this design-system
+  site have no accounts of their own: they link to the product's sign-in.
+- **Native apps need no provider SDK.** They run Google, GitHub, OIDC, SAML and passkey sign-in in the system browser
+  session (ASWebAuthenticationSession on iOS, Custom Tabs on Android) against the product's own server, which then
+  issues the native tokens below. Apple sign-in on iOS uses the built-in AuthenticationServices framework. A passkey
+  prompt inside the app itself needs the publisher's associated domains; otherwise it runs in the system browser.
+- **Off means gone.** A method that is off is hidden on every screen and its routes refuse with a typed error.
+- **Settings.** Public identifiers (client id, issuer, metadata URL) are shown in the clear. Client secrets and
+  private keys are **write-only**, encrypted at rest and never in logs, audit metadata, URLs or API replies (as §6).
+  Changes are audited by field name (§7).
+- **One person, many identities.** A person can link several methods to one account. Link by email only for an
+  operator-level provider (Google, Apple, GitHub) that returns a **verified** email. An identity from a space's own
+  OIDC or SAML provider links **only from a signed-in session**, because one account works across every space (UX
+  S21) and a space's provider must not be able to claim someone else's account. Never merge on an unverified email.
+  Unlinking always keeps at least one working method.
+- **Two-step sign-in** is an authenticator app (TOTP) with single-use **recovery codes** stored as hashes. Staff and
+  platform admin need the authenticator exactly as §4 sets out, including when they sign in through an identity
+  provider; a passkey does not replace it for them. For members it is optional (a space may require it), and a
+  passkey sign-in with user verification counts as two-step.
+- **Sessions.** Web: an `HttpOnly`, `Secure` cookie, `SameSite=Lax` by default (`SameSite=None` with CSRF tokens only
+  for a cross-site split under §2.3), for a **server-side session record** checked on every request, so it can be
+  revoked. In stack B that means database sessions, or a session table checked on every request alongside the JWT.
+  Native: a short-lived access token and a rotating refresh token bound to a device grant checked by **App Attest**
+  (iOS) or **Play Integrity** (Android), as §9 sets out. Everyone can see their signed-in devices, sign one out or
+  **sign out everywhere**; a new device triggers an alert (§10).
+- **Without email.** When no email service is set up (§16), "Forgot?" is hidden (UX S20), email codes are not asked
+  for, and a password is reset by a staff member with the capability or through the operator's recovery path (§2.1).
+  The phone code still works if SMS is set up.
+- **Abuse.** Sign-in, code-sending and reset routes are throttled (429 with `Retry-After`) with a growing delay per
+  account and per IP, applied the same way to unknown accounts, so the answer never shows whether an account exists.
+  Reset, verify and invitation links are opaque and single-use, and codes are short-lived and stored as hashes (§10).
+- **Native apps** show the methods the server has switched on, read from the server's config, never hard-coded.
+  Platform-admin accounts are refused on phones (§4).
+- **Audit** sign-in success and failure (never the credential), sign-out, two-step set-up and removal, recovery
+  code use, identity link and unlink, and every change to the method settings.
+- **Stacks.** Stack A uses its accounts app (for example `apps/accounts`); stack B uses Auth.js providers
+  (Credentials, Google, Apple, GitHub, generic OIDC). For SAML and passkeys use a maintained library and record which
+  one in `docs/decisions.md`; check the current maintenance status, support and licence of every library, Auth.js
+  included, when adopting it.
+- **Screens** follow the UX spec: the auth split screen (P22), centred task cards (P23), staff sign-in (S20) and
+  member sign-in (S21). Social and single sign-on buttons come first, then the "or" divider, then the fields (P22).
+- **Tests** (§12): each method on and off and refused when off, the delay and lockout, link and unlink (including a
+  space provider refused for email linking), two-step and recovery codes, the no-email path, and the same authority
+  with a web session and a native device token.
+
+---
+
+## 16. Outside services
+
+**Rule.** Every outside service follows **one contract**, and every product supports the **same list of providers**
+for each kind of service it uses. A basic install needs none of them.
+
+**Why.** When each product wires email, SMS, push and chat its own way, each has its own gaps: keys shown again, no
+test before saving, sends lost on a crash. One contract and one list mean an operator sets up a provider the same way
+in every product, and a fix in one product can be copied to the others.
+
+**How to apply.**
+
+| Kind | Providers | Notes |
+| --- | --- | --- |
+| Email | SMTP, Amazon SES, Resend, Postmark | Bounce and complaint reports (where the provider sends them) feed one suppression list |
+| SMS and phone codes | Twilio, MSG91 | Delivery reports where the provider sends them; codes as §15 sets out |
+| Push | FCM (Android), APNs (iOS) | The payload carries a title and an id, never private content. Push credentials belong to whoever publishes the app: the publisher's push relay, or the operator's own app build |
+| Chat destinations | Slack, Discord, Mattermost, Telegram, signed webhook | Minimal payloads. Chat webhook URLs and bot tokens are secrets. The generic webhook is signed and address-checked as §9 sets out; a self-hosted Mattermost on a private network is allowed only when the operator lists it |
+| AI | Anthropic API | See the AI rule below |
+
+- **Other sections win for their own services.** Object storage (§2.3, §2.5), payments (§6) and analytics (§8) keep
+  their own rules; this section does not change them.
+- **Every product that uses a kind of service supports every provider listed for it.** A new provider is added
+  here, with a decision in `docs/decisions.md`, before any product adds it.
+- **Off by default.** A basic self-host install works with none of them (§2.3). The operator sets each one up for
+  the install; where a space may bring its own account, the settings screen says so.
+- **The shared contract:** secrets write-only and encrypted (as §6); a "Send a test" or "Test connection" action
+  before saving, and every configured service tested before the install starts (§2.3); the server connects only to
+  configured hosts over TLS, and the Content Security Policy widens only for hosts the browser itself calls (as
+  §8.2); incoming provider webhooks are verified by signature, or by basic auth or a secret URL token where the
+  provider does not sign; sends go through the outbox after commit (§7) with the provider's idempotency key where it
+  has one, otherwise de-duplicated by outbox id and never re-sent once the provider has accepted the message;
+  settings changes are audited by field name (§7).
+- **Honestly unavailable.** Delivery state and provider health show on the operations screen; a service that is not
+  set up or is failing shows as unavailable, never faked.
+- **Send only what delivery needs.** Email, SMS, push and chat carry the recipient's address and the message only:
+  no other personal data, no evidence, no payment details.
+- **Native apps** read service config from the server and add no provider SDK other than FCM and the §8.2 list
+  (APNs is part of iOS).
+- **AI.** Off until the operator sets a key and a space turns it on. It never receives evidence, payment details,
+  credentials or other people's personal data; its output is labelled as generated and is never saved without a
+  person confirming it.
+- **Tests** (§12): each provider against a fake server, refused when not set up, no second send after the provider
+  accepted a message, webhook verification, and no secret in any reply or log.
+
+---
+
 ## New-feature checklist
 
 1. Is it an **area** with a registry key, a default (off unless core) and an "off" behaviour (hidden, refused,
@@ -820,7 +956,8 @@ contributor who knows one repository knows them all, and a gap is visible at a g
    web and native? Are the generated types regenerated?
 5. Does money record first, in **minor units with currency**, idempotently, with webhook verification and
    Stripe, Razorpay and offline paths? Are secrets write-only and encrypted?
-6. Does it add **analytics** as counts-only, tagged `client`, with any outside provider off until consent?
+6. Does it add **analytics** as counts-only, tagged `client`, with any outside provider (§8.2, §8.3) off until
+   consent, and only event names listed in §8.4?
 7. Do public pages hide private fields? Are links opaque? Is anything personal encrypted and classified?
 8. Are all strings translatable, both themes checked, tokens only, loader and motion rules followed, the
    accessibility floor met?
@@ -832,3 +969,7 @@ contributor who knows one repository knows them all, and a gap is visible at a g
 12. Is the decision recorded in `docs/decisions.md` with its reason, and are `handover/CONTINUE-HERE.md` and
     `handover/TODO.md` updated?
 13. Does the pipeline cover it (lint, types, unit, integration, contract, guards, e2e, security, build), all green?
+14. If it touches **sign-in**, does it support every §15 method (all but password off until the operator switches
+    them on), keep the §4 authenticator for staff, and work the same on web and native?
+15. If it uses an **outside service**, does it support every §16 provider for that kind, with secrets write-only,
+    a test action, the outbox and an honest "unavailable" state?
