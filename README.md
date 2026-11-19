@@ -19,6 +19,8 @@ pattern specs. Use it as a git submodule in any Space Works project so every sur
 
 > **Current rule (v2.0.1, 2026-11-13):** Design System v2.0 is independent of app 0.12.0. v2.0.0 was released 2026-11-13; 2.0.1 is the fix checkpoint and ledger 397 sets phase 2 to v2.1.0. Observed at the 2026-11-13 batch baseline: local VERSION still reads 2.0.0 and tag v2.0.0 exists; publication and a target version are different facts. (1A-N01) — supersedes the line above; see [docs/current-rules.md#cr-release-01](docs/current-rules.md#cr-release-01).
 
+> **SpaceWorks 1.0.0 (2026-11-19):** this design system is the stable baseline for the product release **SpaceWorks 1.0.0**. Its own version is unchanged at **v2.5.1** (`VERSION` and the latest published kit tag); these UX docs are docs only, so no new kit tag (as SW-630). The product and design-system versions are separate; see [What's new for SpaceWorks 1.0](docs/whats-new-spaceworks-1.0.md) and the [draft release entry](docs/releases/spaceworks-1.0.0.md).
+
 ```bash
 git submodule add https://github.com/SpaceWorks-Labs/SpaceWorks-Design-System.git design
 ```
@@ -92,6 +94,7 @@ The best screen per component or pattern area (product rules [section 12.6](docs
 | `motion/README.md` | The **motion kit index**: every animation in the product (49 rows) mapped to a reusable folder (`route-transition/`, `page-enter/`, `scroll-reveal/`, `overlays/`, `toast/`, `sidebar/`, `collapse/`, `skeleton/`, `hover-press/`, `feedback/`, `delight/`, `kiosk-display/`, plus `box-open/`, `theme-reveal/`, `search/`). Each folder has framework-free CSS from the app, `react/` copies, a light/dark `demo.html`, animated previews and a README (where, why, tokens, trigger, reduced motion, dark, do and don't) |
 | `docs/` | `motion.md` (**every animation in the product**: where, why, tokens, plus the "which animation to use" guide and the logo hover rule), `theming.md` (**how to implement the light/dark switch** with these tokens: tokens, `html.dark`, pre-paint script, React and plain-JS examples), `ui-brand-spec.md` (token derivations, contrast ratios, states, status pills, type scale, logo use), `ux-spec.md` (**Space Works UX**: our interaction patterns, reusable layouts, navigation and screen specs), `ux-screens-longtail.md` (remaining screens) |
 | `docs/` (more) | `product-rules.md` (the product and engineering rules every SpaceWorks-Labs product follows, with a per-product checklist), `decisions.md` (every design decision and its reason), `lessons-learned.md` (what went wrong and what we do now) and `whats-new-v2.0.md` (what's new in Design System v2.0, which ships alongside SpaceWorks 0.12.0) |
+| `docs/ux-rules.md` | [**SpaceWorks UX rules**](docs/ux-rules.md) (adapted from ui-ux-pro-max): behaviour rules by priority, mapped to our screens and patterns, with the pre-delivery UX checklist; the visual system is unchanged |
 | `tokens/previews/` | Rendered previews of the colour tokens, light and dark |
 | `screenshots/ux/` | Screenshots of Space Works UX in Space Works Events (light, dark and phone), used by the site's UX pages |
 | `site/` | The Starlight website published to GitHub Pages; `scripts/sync-kit.mjs` copies the kit in at build time, and `scripts/split-docs.mjs` lists which long docs are published as an overview plus one page per part (the Markdown here stays one file) |
