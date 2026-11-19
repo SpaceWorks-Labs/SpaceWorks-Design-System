@@ -1,6 +1,6 @@
 # What's new for SpaceWorks 1.0
 
-**SpaceWorks 1.0.0** is the first stable release of the product (owner decision 672). This design system is its **stable baseline**. The two version numbers are different things: *SpaceWorks 1.0.0* is the product; the design system keeps its own semver, which on this branch (`design-0.12.0`) is `VERSION` **2.1.1**, with **v2.5.1** the latest published kit tag (15 November 2026) not yet merged here. See [CR-RELEASE-01](current-rules.md#cr-release-01). The product release is not out yet: its pull request is open and only the owner merges.
+**SpaceWorks 1.0.0** is the first stable release of the product (owner decision 672). This design system is its **stable baseline**. The two version numbers are different things: *SpaceWorks 1.0.0* is the product; the design system keeps its own semver, which is **v2.5.1** (`VERSION` and the latest published kit tag, 15 November 2026); these docs add no new kit tag. See [CR-RELEASE-01](current-rules.md#cr-release-01). The product release is not out yet: its pull request is open and only the owner merges.
 
 ## The look does not change
 

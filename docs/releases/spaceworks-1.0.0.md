@@ -9,7 +9,7 @@ description: Draft release entry for the design-system baseline that ships with 
 ## [SpaceWorks 1.0.0 baseline] — draft, 2026-11-19
 
 Status: **draft**. Tag: none yet. Commit: none yet (these files are uncommitted on `design-0.12.0`).
-Kit version: `VERSION` on `design-0.12.0` reads **2.1.1**. The latest published kit is tag **v2.5.1** (on `main` and `dev`, 15 November 2026), which this branch does not contain yet; decision 938 rebases this branch onto `dev` before its PR, after which it carries 2.5.1. The release owner records the final kit tag here when the product release is cut.
+Kit version: **v2.5.1** (`VERSION` reads 2.5.1; tag v2.5.1, 15 November 2026). The UX rules and these notes are docs only, so they ship without a new kit tag, as SW-630 did for docs and screenshots. The release owner records the final kit tag here when the product release is cut.
 Ships alongside: **SpaceWorks 1.0.0** (product; not released at the time of writing — the dev→main PR is open and only the owner merges). Artwork edition: v2.
 Owner: Space Works design-system owner.
 
